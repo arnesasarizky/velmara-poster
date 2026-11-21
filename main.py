@@ -53,11 +53,12 @@ def px(x, y, c):
 def rect(x0, y0, x1, y1, c):
     x0 = max(0, int(x0)); y0 = max(0, int(y0))
     x1 = min(W, int(x1)); y1 = min(H, int(y1))
+    if x1 <= x0 or y1 <= y0:
+        return
+    row = bytes(c) * (x1 - x0)
     for y in range(y0, y1):
         base = (y * W + x0) * 3
-        for x in range(x0, x1):
-            i = base + (x - x0) * 3
-            buf[i] = c[0]; buf[i + 1] = c[1]; buf[i + 2] = c[2]
+        buf[base:base + len(row)] = row
 
 
 def hline(x0, x1, y, c, thick=1):
